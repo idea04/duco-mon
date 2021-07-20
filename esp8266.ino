@@ -17,10 +17,9 @@
 #include <ArduinoJson.h>
 #include <Wire.h>
 #include "SSD1306Wire.h"
-SSD1306Wire display(0x3c, D1, D2);
-
-#define StaticJsonDocument<4000> doc;
 ESP8266WiFiMulti WiFiMulti;
+SSD1306Wire display(0x3c, D1, D2);
+#define StaticJsonDocument<4000> doc;
 
 //-----------------------------------------------
 
@@ -35,21 +34,17 @@ void setup() {
   while ( WiFi.status() != WL_CONNECTED ) {
     delay ( 10 );
   }
-
   display.init();
   display.flipScreenVertically();
   display.setContrast(255);
-
   display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
   display.setFont(ArialMT_Plain_16);
   display.drawString(display.getWidth() / 2, display.getHeight() / 2, "Dev by Idea04:\n" + WiFi.localIP().toString());
   display.display();
   delay(2500);
-
 }
 
 void loop() {
-  //-----------------------------------------------------------------------
   if ((WiFiMulti.run() == WL_CONNECTED))
   {
     String serverPath = "https://server.duinocoin.com/balances/" + String(duco_user);
